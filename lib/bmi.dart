@@ -9,13 +9,15 @@ class BMI extends StatefulWidget {
 }
 
 class _BMIState extends State<BMI> {
-    final TextEditingController _heightController = TextEditingController();
+    // final TextEditingController _heightController = TextEditingController();
     final TextEditingController _weightController = TextEditingController();
 
     double _result = 0;
 
     String ftDropdown = ftValues.first;
     String inDropdown = inValues.first;
+    String ftValue = '';
+    String inValue = '';
 
     @override
     Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class _BMIState extends State<BMI> {
                                             onChanged: (String? value) {
                                                 setState(() {
                                                     ftDropdown = value!;
+                                                    ftValue = value!;
                                                 });
                                             },
                                             items: ftValues.map<DropdownMenuItem<String>>((String value) {
@@ -76,7 +79,8 @@ class _BMIState extends State<BMI> {
                                             ),
                                             onChanged: (String? value) {
                                                 setState(() {
-                                                    ftDropdown = value!;
+                                                    inDropdown = value!;
+                                                    inValue = value!;
                                                 });
                                             },
                                             items: inValues.map<DropdownMenuItem<String>>((String value) {
@@ -97,7 +101,7 @@ class _BMIState extends State<BMI> {
                                 controller: _weightController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                    labelText: "weight in kg",
+                                    labelText: "weight in lbs",
                                 ),
                             ),
                         ),
@@ -113,8 +117,7 @@ class _BMIState extends State<BMI> {
                             'Result',
                         ),
                         Text(
-                            _result == '' ? 'Enter Value' :
-                            '${_result.toStringAsFixed(2)}',
+                            _result == '' ? 'Enter Value' : '${_result.toStringAsFixed(2)}',
                             style: TextStyle(
                                 color: Colors.redAccent,
                                 fontSize: 19.4,
@@ -128,13 +131,16 @@ class _BMIState extends State<BMI> {
     }
 
     void calculateBMI() {
-        double heightInCm = double.parse(_heightController.text);
-        double weightInKg = double.parse(_weightController.text);
+        // double heightInCm = double.parse(_heightController.text);
+        double weightLb = double.parse(_weightController.text);
+        double heightFt = double.parse(ftValue);
+        double heightIn = double.parse(inValue);
 
-        double heightInM = heightInCm / 100;
+        // double heightInM = heightInCm / 100;
 
-        double heightSquared = heightInM * heightInM;
-        _result = weightInKg / heightInM;
+        // double heightSquared = heightInM * heightInM;
+        // _result = weightInKg / heightInM;
+        _result = weightLb / (heightFt + heightIn);
         setState(() {});
     }
 }
