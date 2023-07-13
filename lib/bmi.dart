@@ -24,12 +24,35 @@ class _BMIState extends State<BMI> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        TextField(
-                            controller: _heightController,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                labelText: 'height in cm',
-                            ),
+                        // TODO: change into 2 dropdowns: ft and in
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: TextField(
+                                            controller: _heightController,
+                                            keyboardType: TextInputType.number,
+                                            decoration: InputDecoration(
+                                                labelText: 'REPLACE ME WITH FT DROPDOWN',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: TextField(
+                                            controller: _heightController,
+                                            keyboardType: TextInputType.number,
+                                            decoration: InputDecoration(
+                                                labelText: 'REPLACE ME WITH IN DROPDOWN',
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ],
                         ),
                         SizedBox(height: 50),
                         TextField(

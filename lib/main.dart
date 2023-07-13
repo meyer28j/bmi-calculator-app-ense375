@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'bmi.dart';
+
 void main() {
-runApp(MyApp());
+    runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
-@override
-Widget build(BuildContext context) {
-return MaterialApp(
-home: BMI(),
-);
-}
+    @override
+    Widget build(BuildContext context) {
+        return MaterialApp(
+            home: BMI(),
+        );
+    }
 }
