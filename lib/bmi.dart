@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+    const List<String> ftValues = <String>['Feet', '3', '4', '5', '6', '7'];
+    const List<String> inValues = <String>['Inches', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+
 class BMI extends StatefulWidget {
     @override
     _BMIState createState() => _BMIState();
@@ -10,6 +13,9 @@ class _BMIState extends State<BMI> {
     final TextEditingController _weightController = TextEditingController();
 
     double _result = 0;
+
+    String ftDropdown = ftValues.first;
+    String inDropdown = inValues.first;
 
     @override
     Widget build(BuildContext context) {
@@ -31,35 +37,68 @@ class _BMIState extends State<BMI> {
                                 Expanded(
                                     child: Padding(
                                         padding: EdgeInsets.all(16.0),
-                                        child: TextField(
-                                            controller: _heightController,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                                labelText: 'REPLACE ME WITH FT DROPDOWN',
+                                        child: DropdownButton<String>(
+                                            value: ftDropdown,
+                                            icon: const Icon(Icons.arrow_downward),
+                                            isExpanded: true,
+                                            elevation: 16,
+                                            style: const TextStyle(color: Colors.blue,),
+                                            underline: Container(
+                                                height: 1,
+                                                color: Colors.blue,
                                             ),
+                                            onChanged: (String? value) {
+                                                setState(() {
+                                                    ftDropdown = value!;
+                                                });
+                                            },
+                                            items: ftValues.map<DropdownMenuItem<String>>((String value) {
+                                                return DropdownMenuItem<String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                );
+                                            }).toList(),
                                         ),
                                     ),
                                 ),
                                 Expanded(
                                     child: Padding(
                                         padding: EdgeInsets.all(16.0),
-                                        child: TextField(
-                                            controller: _heightController,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                                labelText: 'REPLACE ME WITH IN DROPDOWN',
+                                        child: DropdownButton<String>(
+                                            value: inDropdown,
+                                            icon: const Icon(Icons.arrow_downward),
+                                            isExpanded: true,
+                                            elevation: 16,
+                                            style: const TextStyle(color: Colors.blue,),
+                                            underline: Container(
+                                                height: 1,
+                                                color: Colors.blue,
                                             ),
+                                            onChanged: (String? value) {
+                                                setState(() {
+                                                    ftDropdown = value!;
+                                                });
+                                            },
+                                            items: inValues.map<DropdownMenuItem<String>>((String value) {
+                                                return DropdownMenuItem<String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                );
+                                            }).toList(),
                                         ),
                                     ),
                                 ),
                             ],
                         ),
                         SizedBox(height: 50),
-                        TextField(
-                            controller: _weightController,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                labelText: "weight in kg",
+                        Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: TextField(
+                                controller: _weightController,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                    labelText: "weight in kg",
+                                ),
                             ),
                         ),
                         SizedBox(height: 50),
@@ -71,7 +110,7 @@ class _BMIState extends State<BMI> {
                         ),
                         SizedBox(height: 50),
                         Text(
-                            'Result'
+                            'Result',
                         ),
                         Text(
                             _result == '' ? 'Enter Value' :
