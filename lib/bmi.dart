@@ -9,10 +9,10 @@ class BMI extends StatefulWidget {
 }
 
 class _BMIState extends State<BMI> {
-    // final TextEditingController _heightController = TextEditingController();
     final TextEditingController _weightController = TextEditingController();
 
     double _result = 0;
+    String _status = '';
 
     String ftDropdown = ftValues.first;
     String inDropdown = inValues.first;
@@ -32,7 +32,6 @@ class _BMIState extends State<BMI> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        // TODO: change into 2 dropdowns: ft and in
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -101,7 +100,7 @@ class _BMIState extends State<BMI> {
                                 controller: _weightController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
-                                    labelText: "weight in lbs",
+                                    labelText: "Weight in lbs",
                                 ),
                             ),
                         ),
@@ -114,12 +113,20 @@ class _BMIState extends State<BMI> {
                         ),
                         SizedBox(height: 50),
                         Text(
-                            'Result',
+                            'Result:',
                         ),
                         Text(
-                            _result == '' ? 'Enter Value' : '${_result.toStringAsFixed(2)}',
+                            _result == 0 ? '' : '${_result.toStringAsFixed(2)}',
                             style: TextStyle(
                                 color: Colors.redAccent,
+                                fontSize: 19.4,
+                                fontWeight: FontWeight.w500,
+                            ),
+                        ),
+                        Text(
+                            _status == '' ? '' : '${_status.toString()}',
+                            style: TextStyle(
+                                color: Colors.green[400],
                                 fontSize: 19.4,
                                 fontWeight: FontWeight.w500,
                             ),
@@ -131,16 +138,56 @@ class _BMIState extends State<BMI> {
     }
 
     void calculateBMI() {
-        // double heightInCm = double.parse(_heightController.text);
-        double weightLb = double.parse(_weightController.text);
-        double heightFt = double.parse(ftValue);
-        double heightIn = double.parse(inValue);
+        double heightFt = 0;
+        double heightIn = 0;
+        double weightLb = 0; 
+        try {
+            heightFt = double.parse(ftValue);
+        } on Exception catch (_) {
+            _result = 0;
+            _status = "Enter Feet Value";
+            setState(() {});
+            return;
+        }
+        try {
+            heightIn = double.parse(inValue);
+        } on Exception catch (_) {
+            _result = 0;
+            _status = "Enter Inches Value";
+            setState(() {});
+            return;
+        }
+        try {
+            weightLb = double.parse(_weightController.text);
+        } on Exception catch (_) {
+            _result = 0;
+            _status = "Enter Weight Value";
+            setState(() {});
+            return;
+        }
 
-        // double heightInM = heightInCm / 100;
+        // convert height from ft+in to meters
+        double heightM = (heightFt * 12 + heightIn) * 2.54 / 100;
+        if (heightM <= 0 || weightLb <= 0) { // avoid divide-by-zero and negative values
+            _result = 0;
+            _status = 'Invalid Input';
+        } else {
+            double heightMSquared = heightM * heightM;
+            double weightKg = weightLb / 2.2;
+            _result = weightKg / heightMSquared;
 
-        // double heightSquared = heightInM * heightInM;
-        // _result = weightInKg / heightInM;
-        _result = weightLb / (heightFt + heightIn);
+            if (_result == 0) {
+                _status = 'Enter Height and Weight';
+            } else if (_result < 18.5) {
+                _status = 'Underweight';
+            } else if (_result >=18.5 && _result < 25) {
+                _status = 'Healthy Weight Range';
+            } else if (_result >= 25 && _result < 30) {
+                _status = 'Overweight';
+            } else if (_result > 30) {
+                _status = 'Severely Overweight';
+            }
+        }
         setState(() {});
     }
 }
