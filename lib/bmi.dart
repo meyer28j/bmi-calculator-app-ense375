@@ -168,12 +168,12 @@ class _BMIState extends State<BMI> {
 
         // convert height from ft+in to meters
         double heightM = (heightFt * 12 + heightIn) * 2.54 / 100;
-        if (heightM <= 0 || weightLb <= 0) { // avoid divide-by-zero and negative values
+        if (heightM <= 0 || weightLb <= 10 || weightLb > 1000) { // avoid divide-by-zero and negative or unrealistic weight values
             _result = 0;
             _status = 'Invalid Input';
         } else {
             double heightMSquared = heightM * heightM;
-            double weightKg = weightLb / 2.2;
+            double weightKg = weightLb / 2.20462296; // such precise!!
             _result = weightKg / heightMSquared;
 
             if (_result == 0) {
